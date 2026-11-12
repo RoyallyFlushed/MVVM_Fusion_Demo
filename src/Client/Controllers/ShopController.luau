@@ -1,4 +1,3 @@
---!strict
 
 --// Services
 const Players = game:GetService("Players")
@@ -7,6 +6,7 @@ const ReplicatedStorage = game:GetService("ReplicatedStorage")
 --// Modules
 const Shop = require(ReplicatedStorage.Client.UI.Shop["Shop.fusion"])
 const ShopViewModel = require(ReplicatedStorage.Client.UI.Shop.ShopViewModel)
+const ShopUtil = require(ReplicatedStorage.Shared.Modules.ShopUtil)
 
 --// Packages
 const Fusion = require(ReplicatedStorage.Packages.Fusion)
@@ -18,9 +18,24 @@ local ShopController = {
 }
 export type ShopController = typeof(ShopController)
 
+local function getProducts(): { ShopViewModel.ProductEntry }
+	local products: { ShopViewModel.ProductEntry } = {}
+	for index, product in ShopUtil.GetProducts() do
+		table.insert(products, {
+			AssetId = product.AssetId,
+			Name = product.Name,
+			Price = product.Price,
+			Icon = ShopUtil.GetThumbnail(product.AssetId),
+			LayoutOrder = index,
+		})
+	end
+	return products
+end
+
 function ShopController.KnitStart(self: ShopController): ()
 	const vm = ShopViewModel.new({
-		IsVisible = true,
+		IsVisible = false,
+		Products = getProducts(),
 	})
 	self.ViewModel = vm
 

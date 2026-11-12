@@ -19,6 +19,9 @@ sourcemap_generator = ".pesde/scripts/sourcemap_generator.luau"
 # Framework
 Knit = { wally = "sleitnick/knit", version = "=1.7.0" }
 
+# Utility
+Janitor = { wally = "howmanysmall/janitor", version = "=1.18.3" }
+
 # UI
 Fusion = { wally = "elttob/fusion", version = "=0.3.0" }
 

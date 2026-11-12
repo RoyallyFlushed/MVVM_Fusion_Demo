@@ -1,6 +1,6 @@
 # mvvm-fusion-demo
 
-A Roblox project that shows the MVVM UI structure with Fusion 0.3 and Knit 1.7.
+A Roblox project that shows the MVVM UI structure with Fusion 0.3, Knit 1.7, and Janitor 1.18.
 
 ## Setup
 
@@ -24,7 +24,10 @@ rojo serve
 
 ```
 src/Client/
+  Controllers/HUDController.luau      Knit controller. Mounts the HUD and connects the Shop button.
   Controllers/ShopController.luau     Knit controller. Makes the ViewModel and mounts the View.
+  UI/Common/Button.luau               Base button. Scales up on hover and down on press.
+  UI/HUD/                             HUD with a left-side buttons panel (View, ViewModel, story).
   UI/Shop/
     Shop.fusion/init.luau             View. Reads ViewModel state only.
     ShopViewModel.luau                ViewModel. Owns the Fusion scope and state.
