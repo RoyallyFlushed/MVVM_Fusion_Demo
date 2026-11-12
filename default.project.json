@@ -1,0 +1,28 @@
+{
+  "name": "mvvm-fusion-demo",
+  "emitLegacyScripts": false,
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "Packages": {
+        "$path": "roblox_packages"
+      },
+      "Tests": {
+        "$path": "src/Tests"
+      },
+      "Shared": {
+        "$path": "src/Shared"
+      },
+      "Client": {
+        "$path": "src/Client"
+      }
+    },
+
+    "ServerScriptService": {
+      "Server": {
+        "$path": "src/Server"
+      }
+    }
+  }
+}

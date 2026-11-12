@@ -1,0 +1,63 @@
+{
+	// General
+	"editor.detectIndentation": false,
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": false,
+	"editor.formatOnPaste": true,
+
+	// Selene
+	"selene.selenePath": "C:\\Users\\reidm\\.rokit\\bin\\selene.exe",
+
+	// Luau LSP
+	"luau-lsp.completion.imports.suggestServices": true,
+	"luau-lsp.completion.autocompleteEnd": true,
+	"luau-lsp.completion.imports.enabled": true,
+	"luau-lsp.fflags.enableNewSolver": true,
+	"luau-lsp.completion.imports.ignoreGlobs": [
+		"**/Packages/**/*-package/init.lua*",
+		"**/Packages/**/*-package.lua*",
+		"**/Packages/**/wally.toml",
+		"**/*_Sample.lua*",
+		"**/_Index/*[!e]@*/**",
+		"**/_Index/*[!g]e@*/**",
+		"**/_Index/*[!a]ge@*/**",
+		"**/_Index/*[!k]age@*/**",
+		"**/_Index/*[!c]kage@*/**",
+		"**/_Index/*[!a]ckage@*/**",
+		"**/_Index/*[!p]ackage@*/**",
+		"**/_Index/*package@*/**.lua",
+	],
+	"luau-lsp.ignoreGlobs": [
+		"**/Packages/**/*-package/init.lua*",
+		"**/Packages/**/*-package.lua*",
+		"**/Packages/**/wally.toml",
+		"**/*_Sample.lua*",
+		"**/_Index/*[!e]@*/**",
+		"**/_Index/*[!g]e@*/**",
+		"**/_Index/*[!a]ge@*/**",
+		"**/_Index/*[!k]age@*/**",
+		"**/_Index/*[!c]kage@*/**",
+		"**/_Index/*[!a]ckage@*/**",
+		"**/_Index/*[!p]ackage@*/**",
+		"**/_Index/*package@*/**.lua",
+	],
+
+	// Search
+	"search.useIgnoreFiles": false,
+	"search.exclude": {
+		"**/Packages/**/*-package/init.lua*": true,
+		"**/Packages/**/*-package.lua*": true,
+		"**/Packages/**/wally.toml": true,
+		"**/*_Sample.lua*": true,
+		"**/_Index/*[!e]@*/**": true,
+		"**/_Index/*[!g]e@*/**": true,
+		"**/_Index/*[!a]ge@*/**": true,
+		"**/_Index/*[!k]age@*/**": true,
+		"**/_Index/*[!c]kage@*/**": true,
+		"**/_Index/*[!a]ckage@*/**": true,
+		"**/_Index/*[!p]ackage@*/**": true,
+		"**/_Index/*package@*/**.lua": true,
+	},
+
+	"stylua.targetReleaseVersion": "latest",
+}

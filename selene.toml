@@ -1,0 +1,14 @@
+# This file specifies selene linting rules
+std = "roblox"
+
+[lints]
+global_usage = "allow"
+empty_if = "allow"
+mixed_table = "allow"
+shadowing = "allow"
+incorrect_standard_library_use = "allow"
+if_same_then_else = "allow"
+roblox_manual_fromscale_or_fromoffset = "allow"
+
+[config]
+unused_variable = { ignore_pattern = "^(_|self)" }
