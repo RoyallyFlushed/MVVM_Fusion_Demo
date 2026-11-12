@@ -30,8 +30,8 @@ const CUSTOM_PROPS = { "Scope", "SizeScalar", "ButtonTweenInfo" }
 export type Props = {
 	Scope: Fusion.Scope<any>,
 	-- 1 scales the button by 10%: up on hover, down on press.
-	SizeScalar: number?,
-	ButtonTweenInfo: TweenInfo?,
+	SizeScalar: Fusion.UsedAs<number>?,
+	ButtonTweenInfo: Fusion.UsedAs<TweenInfo>?,
 } & Fusion.PropertyTable
 export type BaseType = ImageButton
 
@@ -49,7 +49,6 @@ return function(_props: Props): BaseType
 	local s = props.Scope:innerScope()
 	local localStates = {}
 	local localCallbacks = {}
-	local sizeStep = props.SizeScalar * 0.1
 
 	local function callUserHandler(eventName: string, ...: any): ()
 		local handler = props[OnEvent(eventName)]
@@ -63,6 +62,7 @@ return function(_props: Props): BaseType
 	localStates.IsPressed = s:Value(false)
 	localStates.ButtonSize = s:Computed(function(use: Fusion.Use)
 		local size: UDim2 = use(props.Size)
+		local sizeStep: number = use(props.SizeScalar) * 0.1
 		if use(props.Active) == false then
 			return size
 		elseif use(localStates.IsPressed) then

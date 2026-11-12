@@ -11,7 +11,6 @@ const ReplicatedStorage = game:GetService("ReplicatedStorage")
 --// Modules
 const Button = require(ReplicatedStorage.Client.UI.Common.Button)
 const ShopViewModel = require(ReplicatedStorage.Client.UI.Shop.ShopViewModel)
-const NumberUtil = require(ReplicatedStorage.Shared.Modules.NumberUtil)
 const Palette = require(ReplicatedStorage.Shared.Config.Palette)
 const TableUtil = require(ReplicatedStorage.Shared.Modules.TableUtil)
 
@@ -32,14 +31,17 @@ const DEFAULT_PROPS = {
 	ButtonTweenInfo = TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 	TextColor = Palette.Colors.TEXT,
 	PriceColor = Palette.Colors.PRICE,
+	IsSelected = false,
 }
-const CUSTOM_PROPS = { "Product", "TextColor", "PriceColor" }
+const CUSTOM_PROPS = { "Product", "TextColor", "PriceColor", "IsSelected" }
+const SELECTION_TWEEN_INFO = TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 
 --// Types
 export type Props = {
 	Product: ShopViewModel.ProductEntry,
 	TextColor: Fusion.UsedAs<Color3>?,
 	PriceColor: Fusion.UsedAs<Color3>?,
+	IsSelected: Fusion.UsedAs<boolean>?,
 } & Button.Props
 export type BaseType = Button.BaseType
 
@@ -47,6 +49,13 @@ return function(_props: Props): BaseType
 	local props = TableUtil.Merge(DEFAULT_PROPS, _props) :: any
 	local s = props.Scope
 	local product: ShopViewModel.ProductEntry = props.Product
+	local localStates = {}
+
+	-- States
+	localStates.StrokeTransparency = s:Computed(function(use: Fusion.Use)
+		return if use(props.IsSelected) then 0 else 1
+	end)
+	localStates.StrokeTransparencyTween = s:Tween(localStates.StrokeTransparency, SELECTION_TWEEN_INFO)
 
 	-- Remove custom props from instance props
 	local iprops: Button.Props = table.clone(props)
@@ -56,6 +65,12 @@ return function(_props: Props): BaseType
 	iprops[Children] = {
 		s:New "UICorner" {
 			CornerRadius = UDim.new(0, 12),
+		},
+		s:New "UIStroke" {
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+			Color = Palette.Colors.SELECTED,
+			Thickness = 3,
+			Transparency = localStates.StrokeTransparencyTween,
 		},
 		s:New "ImageLabel" {
 			Name = "Icon",
@@ -91,7 +106,7 @@ return function(_props: Props): BaseType
 			Size = UDim2.new(1, -16, 0, 16),
 			BackgroundTransparency = 1,
 			Font = Enum.Font.BuilderSansExtraBold,
-			Text = `{NumberUtil.FormatWithCommas(product.Price)} Coins`,
+			Text = product.PriceText,
 			TextColor3 = props.PriceColor,
 			TextSize = 15,
 			TextTruncate = Enum.TextTruncate.AtEnd,

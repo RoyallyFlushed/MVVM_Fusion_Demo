@@ -1,4 +1,3 @@
-
 --// Services
 const Players = game:GetService("Players")
 const ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -24,8 +23,11 @@ local function getProducts(): { ShopViewModel.ProductEntry }
 		table.insert(products, {
 			AssetId = product.AssetId,
 			Name = product.Name,
+			Description = product.Description,
 			Price = product.Price,
+			PriceText = ShopUtil.FormatPrice(product.Price),
 			Icon = ShopUtil.GetThumbnail(product.AssetId),
+			LargeIcon = ShopUtil.GetLargeThumbnail(product.AssetId),
 			LayoutOrder = index,
 		})
 	end
