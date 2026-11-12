@@ -28,14 +28,15 @@ type self = {
 	Janitor: Janitor.Janitor,
 	Scope: Fusion.Scope<typeof(Fusion)>,
 
-	Products: { ProductEntry },
+	Products: Fusion.UsedAs<{ ProductEntry }>,
+	IsEmpty: Fusion.Computed<boolean>,
 	WindowPosition: Fusion.Value<UDim2>,
 	WindowPositionTween: Fusion.Tween<UDim2>,
 	IsVisible: Fusion.Computed<boolean>,
 }
 type Props = {
 	IsVisible: boolean?,
-	Products: { ProductEntry },
+	Products: Fusion.UsedAs<{ ProductEntry }>,
 }
 
 --// Variables
@@ -61,6 +62,9 @@ function ShopViewModel.new(props: Props): ViewModel
 	_self.Scope = _self.Janitor:Add(s, "doCleanup", "Scope")
 
 	_self.Products = props.Products
+	_self.IsEmpty = s:Computed(function(use)
+		return #use(_self.Products) == 0
+	end)
 	_self.WindowPosition = s:Value(if props.IsVisible == true then SHOWN_POSITION else HIDDEN_POSITION)
 	_self.WindowPositionTween = s:Tween(_self.WindowPosition, SLIDE_TWEEN_INFO)
 	_self.IsVisible = s:Computed(function(use)

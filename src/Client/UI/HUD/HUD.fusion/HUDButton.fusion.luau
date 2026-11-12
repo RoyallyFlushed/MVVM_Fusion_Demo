@@ -10,6 +10,7 @@ const ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 --// Modules
 const Button = require(ReplicatedStorage.Client.UI.Common.Button)
+const Palette = require(ReplicatedStorage.Shared.Config.Palette)
 const TableUtil = require(ReplicatedStorage.Shared.Modules.TableUtil)
 
 --// Packages
@@ -23,7 +24,7 @@ const DEFAULT_PROPS = {
 	Position = UDim2.fromScale(0.5, 0.5),
 	AnchorPoint = Vector2.new(0.5, 0.5),
 	AutoButtonColor = false,
-	BackgroundColor3 = Color3.fromRGB(32, 32, 36),
+	BackgroundColor3 = Palette.Colors.PANEL_BACKGROUND,
 	BorderSizePixel = 0,
 	ButtonTweenInfo = TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
 	Icon = "",
@@ -53,7 +54,7 @@ return function(_props: Props): BaseType
 		},
 		s:New "UIStroke" {
 			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-			Color = Color3.fromRGB(70, 70, 78),
+			Color = Palette.Colors.PANEL_STROKE,
 			Thickness = 2,
 		},
 		s:New "TextLabel" {
@@ -63,7 +64,7 @@ return function(_props: Props): BaseType
 			BackgroundTransparency = 1,
 			Font = Enum.Font.BuilderSansBold,
 			Text = props.Icon,
-			TextColor3 = Color3.new(1, 1, 1),
+			TextColor3 = Palette.Colors.TEXT,
 			TextScaled = true,
 		},
 		s:New "TextLabel" {
@@ -74,7 +75,7 @@ return function(_props: Props): BaseType
 			BackgroundTransparency = 1,
 			Font = Enum.Font.BuilderSansExtraBold,
 			Text = props.Text,
-			TextColor3 = Color3.new(1, 1, 1),
+			TextColor3 = Palette.Colors.TEXT,
 			TextScaled = true,
 		},
 		props[Children],

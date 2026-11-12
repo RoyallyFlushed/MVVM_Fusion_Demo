@@ -1,9 +1,9 @@
-
 --// Services
 const ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 --// Modules
 const Button = require(ReplicatedStorage.Client.UI.Common.Button)
+const Palette = require(ReplicatedStorage.Shared.Config.Palette)
 const ShopViewModel = require(script.Parent.ShopViewModel)
 const ProductCard = require(script["ProductCard.fusion"])
 const ViewportScale = require(ReplicatedStorage.Client.Modules.ViewportScale)
@@ -13,11 +13,28 @@ const Fusion = require(ReplicatedStorage.Packages.Fusion)
 const Children = Fusion.Children
 const OnEvent = Fusion.OnEvent
 
+--// Types
+export type Colors = {
+	PanelBackground: Fusion.UsedAs<Color3>,
+	CardBackground: Fusion.UsedAs<Color3>,
+	Text: Fusion.UsedAs<Color3>,
+	Price: Fusion.UsedAs<Color3>,
+	Exit: Fusion.UsedAs<Color3>,
+}
 type Props = {
 	ViewModel: ShopViewModel.ViewModel,
+	-- Optional color overrides, for example from story controls. The default is the Palette.
+	Colors: Colors?,
 }
 
 --// Constants
+const DEFAULT_COLORS: Colors = {
+	PanelBackground = Palette.Colors.PANEL_BACKGROUND,
+	CardBackground = Palette.Colors.CARD_BACKGROUND,
+	Text = Palette.Colors.TEXT,
+	Price = Palette.Colors.PRICE,
+	Exit = Palette.Colors.EXIT,
+}
 const CARD_SIZE = 132
 const CARD_GAP = 10
 const COLUMNS = 4
@@ -38,13 +55,14 @@ const VIEWPORT_FILL = 0.9
 return function(props: Props): Frame
 	const vm = props.ViewModel
 	const s = vm.Scope
+	const colors = props.Colors or DEFAULT_COLORS
 
 	return s:New "Frame" {
 		Name = "Shop",
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		Position = vm.WindowPositionTween,
 		Size = UDim2.fromOffset(PANEL_WIDTH, PANEL_HEIGHT),
-		BackgroundColor3 = Color3.fromRGB(32, 32, 36),
+		BackgroundColor3 = colors.PanelBackground,
 		BorderSizePixel = 0,
 		Visible = vm.IsVisible,
 
@@ -57,7 +75,7 @@ return function(props: Props): Frame
 			},
 			s:New "UIStroke" {
 				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-				Color = Color3.fromRGB(70, 70, 78),
+				Color = Palette.Colors.PANEL_STROKE,
 				Thickness = 3,
 			},
 			s:New "TextLabel" {
@@ -67,7 +85,7 @@ return function(props: Props): Frame
 				BackgroundTransparency = 1,
 				Font = Enum.Font.BuilderSansExtraBold,
 				Text = "SHOP",
-				TextColor3 = Color3.new(1, 1, 1),
+				TextColor3 = colors.Text,
 				TextSize = 30,
 				TextXAlignment = Enum.TextXAlignment.Left,
 			},
@@ -75,10 +93,15 @@ return function(props: Props): Frame
 				Scope = s,
 				Name = "Close",
 				AnchorPoint = Vector2.new(0.5, 0.5),
-				Position = UDim2.new(1, -(EDGE_PADDING + CLOSE_BUTTON_SIZE / 2), 0, EDGE_PADDING + CLOSE_BUTTON_SIZE / 2),
+				Position = UDim2.new(
+					1,
+					-(EDGE_PADDING + CLOSE_BUTTON_SIZE / 2),
+					0,
+					EDGE_PADDING + CLOSE_BUTTON_SIZE / 2
+				),
 				Size = UDim2.fromOffset(CLOSE_BUTTON_SIZE, CLOSE_BUTTON_SIZE),
 				AutoButtonColor = false,
-				BackgroundColor3 = Color3.fromRGB(198, 70, 58),
+				BackgroundColor3 = colors.Exit,
 				BorderSizePixel = 0,
 
 				[OnEvent "Activated"] = function()
@@ -95,10 +118,21 @@ return function(props: Props): Frame
 						BackgroundTransparency = 1,
 						Font = Enum.Font.BuilderSansBold,
 						Text = "×",
-						TextColor3 = Color3.new(1, 1, 1),
+						TextColor3 = colors.Text,
 						TextScaled = true,
 					},
 				},
+			},
+			s:New "TextLabel" {
+				Name = "EmptyMessage",
+				Position = UDim2.fromOffset(EDGE_PADDING, HEADER_HEIGHT),
+				Size = UDim2.fromOffset(CONTENT_WIDTH, CONTENT_HEIGHT),
+				BackgroundTransparency = 1,
+				Font = Enum.Font.BuilderSansBold,
+				Text = "No products are available right now.",
+				TextColor3 = Palette.Colors.TEXT_MUTED,
+				TextSize = 20,
+				Visible = vm.IsEmpty,
 			},
 			s:New "ScrollingFrame" {
 				Name = "Content",
@@ -109,7 +143,7 @@ return function(props: Props): Frame
 				AutomaticCanvasSize = Enum.AutomaticSize.Y,
 				CanvasSize = UDim2.new(),
 				ScrollBarThickness = 6,
-				ScrollBarImageColor3 = Color3.fromRGB(110, 110, 120),
+				ScrollBarImageColor3 = Palette.Colors.SCROLLBAR,
 				ScrollingDirection = Enum.ScrollingDirection.Y,
 
 				[Children] = {
@@ -138,6 +172,9 @@ return function(props: Props): Frame
 								ProductCard {
 									Scope = s,
 									Product = product,
+									BackgroundColor3 = colors.CardBackground,
+									TextColor = colors.Text,
+									PriceColor = colors.Price,
 								},
 							},
 						}

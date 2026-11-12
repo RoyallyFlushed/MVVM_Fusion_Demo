@@ -165,6 +165,13 @@ index_url = "https://github.com/UpliftGames/wally-index"
 [graph."wally#howmanysmall/typed-promise@4.0.6 roblox".pkg_ref.dependencies]
 Promise = [{ wally = "wally#evaera/promise", version = ">=4.0.0, <5.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
 
+[graph."wally#pepeeltoro41/ui-labs@2.4.2 roblox"]
+direct = ["UILabs", { wally = "wally#pepeeltoro41/ui-labs", version = "=2.4.2", index = "default" }, "standard"]
+
+[graph."wally#pepeeltoro41/ui-labs@2.4.2 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
 [graph."wally#sleitnick/comm@1.0.1 roblox".dependencies]
 Option = ["wally#sleitnick/option@1.0.5 roblox", "standard"]
 Promise = ["wally#evaera/promise@4.0.0 roblox", "standard"]

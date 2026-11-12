@@ -11,6 +11,8 @@ const ReplicatedStorage = game:GetService("ReplicatedStorage")
 --// Modules
 const Button = require(ReplicatedStorage.Client.UI.Common.Button)
 const ShopViewModel = require(ReplicatedStorage.Client.UI.Shop.ShopViewModel)
+const NumberUtil = require(ReplicatedStorage.Shared.Modules.NumberUtil)
+const Palette = require(ReplicatedStorage.Shared.Config.Palette)
 const TableUtil = require(ReplicatedStorage.Shared.Modules.TableUtil)
 
 --// Packages
@@ -24,16 +26,20 @@ const DEFAULT_PROPS = {
 	Position = UDim2.fromScale(0.5, 0.5),
 	AnchorPoint = Vector2.new(0.5, 0.5),
 	AutoButtonColor = false,
-	BackgroundColor3 = Color3.fromRGB(46, 46, 52),
+	BackgroundColor3 = Palette.Colors.CARD_BACKGROUND,
 	BorderSizePixel = 0,
 	SizeScalar = 0.6,
 	ButtonTweenInfo = TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+	TextColor = Palette.Colors.TEXT,
+	PriceColor = Palette.Colors.PRICE,
 }
-const CUSTOM_PROPS = { "Product" }
+const CUSTOM_PROPS = { "Product", "TextColor", "PriceColor" }
 
 --// Types
 export type Props = {
 	Product: ShopViewModel.ProductEntry,
+	TextColor: Fusion.UsedAs<Color3>?,
+	PriceColor: Fusion.UsedAs<Color3>?,
 } & Button.Props
 export type BaseType = Button.BaseType
 
@@ -56,7 +62,7 @@ return function(_props: Props): BaseType
 			AnchorPoint = Vector2.new(0.5, 0),
 			Position = UDim2.fromScale(0.5, 0.06),
 			Size = UDim2.fromScale(0.64, 0.64),
-			BackgroundColor3 = Color3.fromRGB(60, 60, 68),
+			BackgroundColor3 = Palette.Colors.CARD_ICON_BACKGROUND,
 			BorderSizePixel = 0,
 			Image = product.Icon,
 			ScaleType = Enum.ScaleType.Fit,
@@ -74,7 +80,7 @@ return function(_props: Props): BaseType
 			BackgroundTransparency = 1,
 			Font = Enum.Font.BuilderSansBold,
 			Text = product.Name,
-			TextColor3 = Color3.new(1, 1, 1),
+			TextColor3 = props.TextColor,
 			TextSize = 16,
 			TextTruncate = Enum.TextTruncate.AtEnd,
 			TextXAlignment = Enum.TextXAlignment.Left,
@@ -85,9 +91,10 @@ return function(_props: Props): BaseType
 			Size = UDim2.new(1, -16, 0, 16),
 			BackgroundTransparency = 1,
 			Font = Enum.Font.BuilderSansExtraBold,
-			Text = `{product.Price} Coins`,
-			TextColor3 = Color3.fromRGB(255, 205, 64),
+			Text = `{NumberUtil.FormatWithCommas(product.Price)} Coins`,
+			TextColor3 = props.PriceColor,
 			TextSize = 15,
+			TextTruncate = Enum.TextTruncate.AtEnd,
 			TextXAlignment = Enum.TextXAlignment.Left,
 		},
 		props[Children],

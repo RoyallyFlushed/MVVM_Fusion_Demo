@@ -25,6 +25,9 @@ Janitor = { wally = "howmanysmall/janitor", version = "=1.18.3" }
 # UI
 Fusion = { wally = "elttob/fusion", version = "=0.3.0" }
 
+# Stories
+UILabs = { wally = "pepeeltoro41/ui-labs", version = "=2.4.2" }
+
 [dev_dependencies]
 scripts = { name = "pesde/scripts_rojo", version = "^0.2.0", target = "lune" }
 rojo = { name = "pesde/rojo", version = "^7.5.1", target = "lune" }
